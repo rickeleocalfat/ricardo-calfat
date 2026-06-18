@@ -250,6 +250,62 @@
       margin-top: .4rem;
     }
 
+    /* ── ELENCO ── */
+    .cast-section {
+      background: linear-gradient(135deg, #10091c, #0d0d1a);
+      border-top: 1px solid rgba(201,168,76,.1);
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .cast-grid {
+      max-width: 900px;
+      margin: 2.5rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .cast-card {
+      border: 1px solid rgba(201,168,76,.2);
+      background: rgba(201,168,76,.04);
+      border-radius: 6px;
+      padding: 1.75rem 1rem;
+      transition: border-color .25s, background .25s;
+    }
+    .cast-card:hover {
+      border-color: rgba(201,168,76,.5);
+      background: rgba(201,168,76,.09);
+    }
+
+    .cast-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(201,168,76,.3), rgba(139,58,110,.3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto .9rem;
+      border: 1px solid rgba(201,168,76,.25);
+    }
+
+    .cast-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--light);
+      margin-bottom: .3rem;
+    }
+
+    .cast-role {
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: .7;
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid rgba(201,168,76,.15);
@@ -343,6 +399,54 @@
       colega de quarto Duke, enquanto ele está apaixonado por outra. Confusões, disfarces e muita risada
       garantem uma noite inesquecível.
     </p>
+  </section>
+
+  <!-- ELENCO -->
+  <section class="cast-section">
+    <p class="section-label">Elenco</p>
+    <h2 class="section-title" style="font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--light);">Conheça os atores</h2>
+    <div class="cast-grid">
+      <div class="cast-card">
+        <div class="cast-avatar">🎭</div>
+        <p class="cast-name">Nome do Aluno</p>
+        <p class="cast-role">Viola</p>
+      </div>
+      <div class="cast-card">
+        <div class="cast-avatar">🎭</div>
+        <p class="cast-name">Nome do Aluno</p>
+        <p class="cast-role">Duke</p>
+      </div>
+      <div class="cast-card">
+        <div class="cast-avatar">🎭</div>
+        <p class="cast-name">Nome do Aluno</p>
+        <p class="cast-role">Olivia</p>
+      </div>
+      <div class="cast-card">
+        <div class="cast-avatar">🎭</div>
+        <p class="cast-name">Nome do Aluno</p>
+        <p class="cast-role">Sebastian</p>
+      </div>
+      <div class="cast-card">
+        <div class="cast-avatar">🎭</div>
+        <p class="cast-name">Nome do Aluno</p>
+        <p class="cast-role">Toby</p>
+      </div>
+      <div class="cast-card">
+        <div class="cast-avatar">🎭</div>
+        <p class="cast-name">Nome do Aluno</p>
+        <p class="cast-role">Malcolm</p>
+      </div>
+      <div class="cast-card">
+        <div class="cast-avatar">🎭</div>
+        <p class="cast-name">Nome do Aluno</p>
+        <p class="cast-role">Eunice</p>
+      </div>
+      <div class="cast-card">
+        <div class="cast-avatar">🎭</div>
+        <p class="cast-name">Nome do Aluno</p>
+        <p class="cast-role">Monique</p>
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->
