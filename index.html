@@ -29,8 +29,6 @@
       overflow-x: hidden;
     }
 
-    body.loading { overflow: hidden; height: 100vh; }
-
     .serif { font-family: 'Playfair Display', Georgia, serif; }
 
     /* ════════ THEATER CURTAINS (intro) ════════ */
@@ -51,7 +49,6 @@
           var(--velvet-dark) 60px);
       box-shadow: inset 0 0 120px rgba(0,0,0,.7);
       position: relative;
-      transition: transform 1.8s cubic-bezier(.77,0,.18,1);
     }
     .curtain::after {
       content: '';
@@ -60,13 +57,13 @@
       width: 40px;
       background: linear-gradient(90deg, transparent, rgba(0,0,0,.5));
     }
-    .curtain.left { transform: translateX(0); border-right: 3px solid var(--gold); }
-    .curtain.right { transform: translateX(0); border-left: 3px solid var(--gold); }
+    .curtain.left { border-right: 3px solid var(--gold); animation: openLeft 2s cubic-bezier(.77,0,.18,1) .5s forwards; }
+    .curtain.right { border-left: 3px solid var(--gold); animation: openRight 2s cubic-bezier(.77,0,.18,1) .5s forwards; }
     .curtain.right::after { left: 0; transform: scaleX(-1); }
     .curtain.left::after { right: 0; }
 
-    body.curtains-open .curtain.left { transform: translateX(-102%); }
-    body.curtains-open .curtain.right { transform: translateX(102%); }
+    @keyframes openLeft  { to { transform: translateX(-102%); } }
+    @keyframes openRight { to { transform: translateX(102%); } }
 
     .curtain-valance {
       position: fixed;
@@ -80,13 +77,13 @@
           var(--velvet-dark) 50px);
       border-bottom: 3px solid var(--gold);
       box-shadow: 0 8px 30px rgba(0,0,0,.6);
-      transition: transform 1.2s ease;
+      animation: valanceUp 1.4s ease .9s forwards;
       clip-path: polygon(0 0,100% 0,100% 60%,
         95% 100%,90% 60%,85% 100%,80% 60%,75% 100%,70% 60%,
         65% 100%,60% 60%,55% 100%,50% 60%,45% 100%,40% 60%,
         35% 100%,30% 60%,25% 100%,20% 60%,15% 100%,10% 60%,5% 100%,0 60%);
     }
-    body.curtains-open .curtain-valance { transform: translateY(-100%); }
+    @keyframes valanceUp { to { transform: translateY(-100%); } }
 
     /* ════════ NAVBAR ════════ */
     nav {
@@ -484,7 +481,7 @@
     }
   </style>
 </head>
-<body class="loading">
+<body>
 
   <!-- CURTAINS INTRO -->
   <div class="curtain-valance"></div>
@@ -642,14 +639,6 @@
   </footer>
 
   <script>
-    /* ── Curtain intro ── */
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        document.body.classList.add('curtains-open');
-        document.body.classList.remove('loading');
-      }, 500);
-    });
-
     /* ── Navbar scroll state ── */
     const nav = document.getElementById('nav');
     addEventListener('scroll', () => {
