@@ -25,7 +25,6 @@
       overflow-x: hidden;
     }
 
-    /* ── HERO ── */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -56,14 +55,8 @@
       height: 100%;
       pointer-events: none;
     }
-    .curtain-left {
-      left: 0;
-      background: linear-gradient(to right, rgba(139,58,110,.35), transparent);
-    }
-    .curtain-right {
-      right: 0;
-      background: linear-gradient(to left, rgba(139,58,110,.35), transparent);
-    }
+    .curtain-left { left: 0; background: linear-gradient(to right, rgba(139,58,110,.35), transparent); }
+    .curtain-right { right: 0; background: linear-gradient(to left, rgba(139,58,110,.35), transparent); }
 
     .school-badge {
       font-size: .75rem;
@@ -84,15 +77,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       filter: drop-shadow(0 0 40px rgba(201,168,76,.35));
-    }
-
-    .hero-subtitle {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(1rem, 2.5vw, 1.4rem);
-      color: rgba(245,240,232,.6);
-      margin-top: .6rem;
-      letter-spacing: .05em;
     }
 
     .divider {
@@ -124,7 +108,6 @@
     }
     .cta-btn:hover { background: var(--gold); color: var(--darker); }
 
-    /* ── INFO STRIP ── */
     .info-strip {
       background: linear-gradient(135deg, #1a0e2e, #12081f);
       border-top: 1px solid rgba(201,168,76,.2);
@@ -141,188 +124,37 @@
       text-align: center;
     }
 
-    .info-card {
-      padding: 1.5rem;
-    }
+    .info-card { padding: 1.5rem; }
+    .info-icon { font-size: 2rem; margin-bottom: .75rem; }
+    .info-label { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); opacity: .7; margin-bottom: .4rem; }
+    .info-value { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--light); }
+    .info-sub { font-size: .85rem; color: rgba(245,240,232,.5); margin-top: .25rem; }
 
-    .info-icon {
-      font-size: 2rem;
-      margin-bottom: .75rem;
-    }
+    .section { max-width: 800px; margin: 0 auto; padding: 5rem 2rem; text-align: center; }
+    .section-label { font-size: .7rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); opacity: .7; margin-bottom: 1rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 1.5rem; color: var(--light); }
+    .section-text { font-size: 1.05rem; line-height: 1.85; color: rgba(245,240,232,.7); }
 
-    .info-label {
-      font-size: .7rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: .7;
-      margin-bottom: .4rem;
-    }
+    .masks { display: flex; justify-content: center; gap: 1.5rem; font-size: 3.5rem; margin: 1rem 0; filter: drop-shadow(0 0 20px rgba(201,168,76,.3)); }
 
-    .info-value {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      color: var(--light);
-    }
+    .countdown-section { background: radial-gradient(ellipse at center, rgba(201,168,76,.08), transparent 70%); padding: 4rem 2rem; text-align: center; }
+    .countdown { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem; }
+    .count-box { min-width: 90px; padding: 1.25rem 1rem; border: 1px solid rgba(201,168,76,.3); background: rgba(201,168,76,.05); border-radius: 4px; }
+    .count-number { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); display: block; line-height: 1; }
+    .count-label { font-size: .65rem; letter-spacing: .15em; text-transform: uppercase; color: rgba(245,240,232,.5); margin-top: .4rem; }
 
-    .info-sub {
-      font-size: .85rem;
-      color: rgba(245,240,232,.5);
-      margin-top: .25rem;
-    }
+    .cast-section { background: linear-gradient(135deg, #10091c, #0d0d1a); border-top: 1px solid rgba(201,168,76,.1); padding: 5rem 2rem; text-align: center; }
+    .cast-grid { max-width: 900px; margin: 2.5rem auto 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1.5rem; }
+    .cast-card { border: 1px solid rgba(201,168,76,.2); background: rgba(201,168,76,.04); border-radius: 6px; padding: 1.75rem 1rem; transition: border-color .25s, background .25s; }
+    .cast-card:hover { border-color: rgba(201,168,76,.5); background: rgba(201,168,76,.09); }
+    .cast-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, rgba(201,168,76,.3), rgba(139,58,110,.3)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto .9rem; border: 1px solid rgba(201,168,76,.25); }
+    .cast-name { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--light); margin-bottom: .3rem; }
+    .cast-role { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); opacity: .7; }
 
-    /* ── SINOPSE ── */
-    .section {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
-      text-align: center;
-    }
-
-    .section-label {
-      font-size: .7rem;
-      letter-spacing: .25em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: .7;
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      margin-bottom: 1.5rem;
-      color: var(--light);
-    }
-
-    .section-text {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: rgba(245,240,232,.7);
-    }
-
-    /* ── MASKS DECORATION ── */
-    .masks {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      font-size: 3.5rem;
-      margin: 1rem 0;
-      filter: drop-shadow(0 0 20px rgba(201,168,76,.3));
-    }
-
-    /* ── COUNTDOWN ── */
-    .countdown-section {
-      background: radial-gradient(ellipse at center, rgba(201,168,76,.08), transparent 70%);
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-
-    .countdown {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-    }
-
-    .count-box {
-      min-width: 90px;
-      padding: 1.25rem 1rem;
-      border: 1px solid rgba(201,168,76,.3);
-      background: rgba(201,168,76,.05);
-      border-radius: 4px;
-    }
-
-    .count-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      color: var(--gold);
-      display: block;
-      line-height: 1;
-    }
-
-    .count-label {
-      font-size: .65rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: rgba(245,240,232,.5);
-      margin-top: .4rem;
-    }
-
-    /* ── ELENCO ── */
-    .cast-section {
-      background: linear-gradient(135deg, #10091c, #0d0d1a);
-      border-top: 1px solid rgba(201,168,76,.1);
-      padding: 5rem 2rem;
-      text-align: center;
-    }
-
-    .cast-grid {
-      max-width: 900px;
-      margin: 2.5rem auto 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .cast-card {
-      border: 1px solid rgba(201,168,76,.2);
-      background: rgba(201,168,76,.04);
-      border-radius: 6px;
-      padding: 1.75rem 1rem;
-      transition: border-color .25s, background .25s;
-    }
-    .cast-card:hover {
-      border-color: rgba(201,168,76,.5);
-      background: rgba(201,168,76,.09);
-    }
-
-    .cast-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(201,168,76,.3), rgba(139,58,110,.3));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      margin: 0 auto .9rem;
-      border: 1px solid rgba(201,168,76,.25);
-    }
-
-    .cast-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      color: var(--light);
-      margin-bottom: .3rem;
-    }
-
-    .cast-role {
-      font-size: .75rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: .7;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid rgba(201,168,76,.15);
-      padding: 2rem;
-      text-align: center;
-      font-size: .8rem;
-      color: rgba(245,240,232,.35);
-      letter-spacing: .05em;
-    }
-
+    footer { border-top: 1px solid rgba(201,168,76,.15); padding: 2rem; text-align: center; font-size: .8rem; color: rgba(245,240,232,.35); letter-spacing: .05em; }
     footer strong { color: rgba(201,168,76,.6); }
 
-    /* ── SPOTLIGHT EFFECT on scroll ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     .fade-up { animation: fadeUp .9s ease both; }
     .delay-1 { animation-delay: .15s; }
     .delay-2 { animation-delay: .3s; }
@@ -332,54 +164,28 @@
 </head>
 <body>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="curtain-left"></div>
     <div class="curtain-right"></div>
-
     <p class="school-badge fade-up">Escola Móbile Bilíngue Período Integral apresenta</p>
-
     <div class="masks fade-up delay-1">🎭</div>
-
     <h1 class="hero-title fade-up delay-2">She's the Man<br><em style="font-size:.6em; font-weight:400;">in High School</em></h1>
-
     <div class="divider fade-up delay-3"></div>
-
-    <p class="hero-tagline fade-up delay-3">
-      Uma comédia cheia de trocas de identidade, amizades, amor e descobertas — ao melhor estilo Shakespeare adaptado para os corredores do ensino médio.
-    </p>
-
+    <p class="hero-tagline fade-up delay-3">Uma comédia cheia de trocas de identidade, amizades, amor e descobertas — ao melhor estilo Shakespeare adaptado para os corredores do ensino médio.</p>
     <a class="cta-btn fade-up delay-4" href="#info">Ver detalhes</a>
   </section>
 
-  <!-- INFO -->
   <div class="info-strip" id="info">
     <div class="info-grid">
-      <div class="info-card">
-        <div class="info-icon">📅</div>
-        <p class="info-label">Data</p>
-        <p class="info-value">31 de outubro</p>
-        <p class="info-sub">Sábado • 2026</p>
-      </div>
-      <div class="info-card">
-        <div class="info-icon">📍</div>
-        <p class="info-label">Local</p>
-        <p class="info-value">Diogo Jácome, 818</p>
-        <p class="info-sub">Escola Móbile</p>
-      </div>
-      <div class="info-card">
-        <div class="info-icon">🎓</div>
-        <p class="info-label">Escola</p>
-        <p class="info-value">Móbile Bilíngue</p>
-        <p class="info-sub">Período Integral</p>
-      </div>
+      <div class="info-card"><div class="info-icon">📅</div><p class="info-label">Data</p><p class="info-value">31 de outubro</p><p class="info-sub">Sábado • 2026</p></div>
+      <div class="info-card"><div class="info-icon">📍</div><p class="info-label">Local</p><p class="info-value">Diogo Jácome, 818</p><p class="info-sub">Escola Móbile</p></div>
+      <div class="info-card"><div class="info-icon">🎓</div><p class="info-label">Escola</p><p class="info-value">Móbile Bilíngue</p><p class="info-sub">Período Integral</p></div>
     </div>
   </div>
 
-  <!-- COUNTDOWN -->
   <div class="countdown-section">
     <p class="section-label">Contagem regressiva</p>
-    <h2 class="section-title" style="font-family:'Playfair Display',serif; font-size:1.8rem;">Falta pouco para o grande dia!</h2>
+    <h2 style="font-family:'Playfair Display',serif; font-size:1.8rem;">Falta pouco para o grande dia!</h2>
     <div class="countdown" id="countdown">
       <div class="count-box"><span class="count-number" id="days">--</span><span class="count-label">Dias</span></div>
       <div class="count-box"><span class="count-number" id="hours">--</span><span class="count-label">Horas</span></div>
@@ -388,68 +194,27 @@
     </div>
   </div>
 
-  <!-- SINOPSE -->
   <section class="section">
     <p class="section-label">Sinopse</p>
     <h2 class="section-title">Sobre a peça</h2>
-    <p class="section-text">
-      Inspirada na comédia shakespeariana <em>Noite de Reis</em> e no clássico filme de 2006,
-      <strong style="color:var(--gold);">She's the Man in High School</strong> conta a história de Viola,
-      que se passa por seu irmão gêmeo para jogar futebol no colégio rival — e acaba se apaixonando pelo
-      colega de quarto Duke, enquanto ele está apaixonado por outra. Confusões, disfarces e muita risada
-      garantem uma noite inesquecível.
-    </p>
+    <p class="section-text">Inspirada na comédia shakespeariana <em>Noite de Reis</em> e no clássico filme de 2006, <strong style="color:var(--gold);">She's the Man in High School</strong> conta a história de Viola, que se passa por seu irmão gêmeo para jogar futebol no colégio rival — e acaba se apaixonando pelo colega de quarto Duke, enquanto ele está apaixonado por outra. Confusões, disfarces e muita risada garantem uma noite inesquecível.</p>
   </section>
 
-  <!-- ELENCO -->
   <section class="cast-section">
     <p class="section-label">Elenco</p>
     <h2 class="section-title" style="font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--light);">Conheça os atores</h2>
     <div class="cast-grid">
-      <div class="cast-card">
-        <div class="cast-avatar">🎭</div>
-        <p class="cast-name">Nome do Aluno</p>
-        <p class="cast-role">Viola</p>
-      </div>
-      <div class="cast-card">
-        <div class="cast-avatar">🎭</div>
-        <p class="cast-name">Nome do Aluno</p>
-        <p class="cast-role">Duke</p>
-      </div>
-      <div class="cast-card">
-        <div class="cast-avatar">🎭</div>
-        <p class="cast-name">Nome do Aluno</p>
-        <p class="cast-role">Olivia</p>
-      </div>
-      <div class="cast-card">
-        <div class="cast-avatar">🎭</div>
-        <p class="cast-name">Nome do Aluno</p>
-        <p class="cast-role">Sebastian</p>
-      </div>
-      <div class="cast-card">
-        <div class="cast-avatar">🎭</div>
-        <p class="cast-name">Nome do Aluno</p>
-        <p class="cast-role">Toby</p>
-      </div>
-      <div class="cast-card">
-        <div class="cast-avatar">🎭</div>
-        <p class="cast-name">Nome do Aluno</p>
-        <p class="cast-role">Malcolm</p>
-      </div>
-      <div class="cast-card">
-        <div class="cast-avatar">🎭</div>
-        <p class="cast-name">Nome do Aluno</p>
-        <p class="cast-role">Eunice</p>
-      </div>
-      <div class="cast-card">
-        <div class="cast-avatar">🎭</div>
-        <p class="cast-name">Nome do Aluno</p>
-        <p class="cast-role">Monique</p>
-      </div>
+      <div class="cast-card"><div class="cast-avatar">🎭</div><p class="cast-name">Nome do Aluno</p><p class="cast-role">Viola</p></div>
+      <div class="cast-card"><div class="cast-avatar">🎭</div><p class="cast-name">Nome do Aluno</p><p class="cast-role">Duke</p></div>
+      <div class="cast-card"><div class="cast-avatar">🎭</div><p class="cast-name">Nome do Aluno</p><p class="cast-role">Olivia</p></div>
+      <div class="cast-card"><div class="cast-avatar">🎭</div><p class="cast-name">Nome do Aluno</p><p class="cast-role">Sebastian</p></div>
+      <div class="cast-card"><div class="cast-avatar">🎭</div><p class="cast-name">Nome do Aluno</p><p class="cast-role">Toby</p></div>
+      <div class="cast-card"><div class="cast-avatar">🎭</div><p class="cast-name">Nome do Aluno</p><p class="cast-role">Malcolm</p></div>
+      <div class="cast-card"><div class="cast-avatar">🎭</div><p class="cast-name">Nome do Aluno</p><p class="cast-role">Eunice</p></div>
+      <div class="cast-card"><div class="cast-avatar">🎭</div><p class="cast-name">Nome do Aluno</p><p class="cast-role">Monique</p></div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <p>🎭 <strong>She's the Man in High School</strong> — 31 de outubro de 2026</p>
     <p style="margin-top:.5rem;">Escola Móbile Bilíngue Período Integral · Diogo Jácome, 818</p>
@@ -457,14 +222,10 @@
 
   <script>
     const show = new Date('2026-10-31T20:00:00');
-
     function update() {
       const now = new Date();
       const diff = show - now;
-      if (diff <= 0) {
-        document.getElementById('countdown').innerHTML = '<p style="font-size:1.5rem;color:var(--gold);">O espetáculo começou! 🎭</p>';
-        return;
-      }
+      if (diff <= 0) { document.getElementById('countdown').innerHTML = '<p style="font-size:1.5rem;color:var(--gold);">O espetáculo começou! 🎭</p>'; return; }
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
@@ -474,7 +235,6 @@
       document.getElementById('minutes').textContent = String(m).padStart(2,'0');
       document.getElementById('seconds').textContent = String(s).padStart(2,'0');
     }
-
     update();
     setInterval(update, 1000);
   </script>
