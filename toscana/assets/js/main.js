@@ -53,15 +53,31 @@
      Enquanto o arquivo não existir, o placeholder [FOTO: ...] continua visível. */
   var slots = document.querySelectorAll('.photo[data-photo]');
 
+  /* Aceita a foto em qualquer um destes formatos, na ordem: basta o arquivo
+     existir em assets/fotos/ com o nome certo — a extensão não importa. */
+  var EXTENSOES = ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG', '.WEBP'];
+
   function carregarFoto(slot) {
     var src = slot.getAttribute('data-photo');
     if (!src) return;
-    var img = new Image();
-    img.onload = function () {
-      slot.style.setProperty('--img', 'url("' + src + '")');
-      slot.classList.add('has-photo');
-    };
-    img.src = src;
+
+    var semExt = src.replace(/\.[a-zA-Z]+$/, '');
+    var candidatos = [src];
+    EXTENSOES.forEach(function (ext) {
+      var alvo = semExt + ext;
+      if (candidatos.indexOf(alvo) === -1) candidatos.push(alvo);
+    });
+
+    (function tentar(i) {
+      if (i >= candidatos.length) return;
+      var img = new Image();
+      img.onload = function () {
+        slot.style.setProperty('--img', 'url("' + candidatos[i] + '")');
+        slot.classList.add('has-photo');
+      };
+      img.onerror = function () { tentar(i + 1); };
+      img.src = candidatos[i];
+    })(0);
   }
 
   if ('IntersectionObserver' in window) {

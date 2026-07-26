@@ -1,0 +1,50 @@
+FOTOS DO SITE — coloque os arquivos NESTA PASTA
+================================================
+
+Use exatamente os nomes abaixo (tudo minúsculo, sem acento).
+A extensão pode ser .jpg, .png ou .webp — o site aceita qualquer uma.
+Assim que o arquivo existir, a foto aparece sozinha e o aviso
+[FOTO: ...] some. Não é preciso mexer em nenhum código.
+
+TOPO E SEÇÕES
+  hero-trufas          imagem grande do topo (horizontal, 2400x1400)
+  og-capa              miniatura ao compartilhar no WhatsApp (1200x630)
+  porque-toscana       seção "Por que a Toscana" (vertical, 1200x1600)
+
+CATEGORIAS (horizontal 4:3, ~1200x900)
+  cat-trufas
+  cat-caviar
+  cat-vinhos
+  cat-azeites
+  cat-massas
+  cat-trufados
+  cat-azeitonas
+  cat-molhos
+  cat-arroz
+
+MARCAS (quadrada, ~900x900)
+  marca-leonardi
+  marca-savitar
+  marca-caviar-import
+  marca-frescobaldi-laudemio
+  marca-cipriani
+  marca-martelli
+  marca-dal-forno-romano
+  marca-monsanto
+  marca-pietroso
+  marca-la-serena
+  marca-castello-di-bolgheri
+  marca-de-carlo
+  marca-agrigenus
+  marca-bauer
+  marca-sinisi
+  marca-fratelli-calvi
+  marca-acquerello
+
+Exemplo: a foto das trufas deve se chamar "cat-trufas.jpg".
+
+Dica: exporte em qualidade ~75 e no máximo 250 KB por imagem
+(a do topo pode ir até 400 KB) para o site abrir rápido no celular.
+
+Não precisa subir todas de uma vez — as que faltarem continuam
+mostrando o aviso, e o resto do site funciona normalmente.

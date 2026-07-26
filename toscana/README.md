@@ -55,9 +55,23 @@ não precisa mexer no código.
 | `marca-fratelli-calvi.jpg` | Card Fratelli Calvi | quadrada |
 | `marca-acquerello.jpg` | Card Acquerello | quadrada |
 
-Dica de performance: exporte em JPG com qualidade ~75 e no máximo 250 KB por
-imagem (a do topo pode ir até 400 KB). Se preferir `.webp`, troque a extensão
-no atributo `data-photo` do `index.html`.
+**A extensão não importa**: pode subir `.jpg`, `.png` ou `.webp` (maiúsculas
+também funcionam). O que precisa bater é o nome — `cat-trufas.png` funciona
+igual a `cat-trufas.jpg`. Também não é preciso subir todas de uma vez: as que
+faltarem continuam mostrando o aviso `[FOTO: ...]` e o resto do site funciona.
+
+Dica de performance: exporte com qualidade ~75 e no máximo 250 KB por imagem
+(a do topo pode ir até 400 KB).
+
+### Como subir
+
+- **Pelo GitHub** (mais simples): abra a pasta `toscana/assets/fotos/`, clique
+  em *Add file → Upload files*, arraste as imagens já renomeadas e confirme.
+- **Pelo computador**: copie os arquivos para `toscana/assets/fotos/` e faça
+  `git add`, `git commit` e `git push`.
+- **Pela hospedagem**: se o site já estiver publicado, basta enviar as imagens
+  para a pasta `assets/fotos/` do servidor por FTP ou pelo gerenciador de
+  arquivos do painel.
 
 ## 2. Depoimentos
 
