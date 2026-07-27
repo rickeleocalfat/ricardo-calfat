@@ -13,55 +13,50 @@ toscana/
 └── README.md
 ```
 
-## 1. Fotos (o que falta para publicar)
+## 1. Fotos
 
-Não foi possível baixar as imagens do site atual (o servidor bloqueou o acesso
-automatizado), então **nenhuma foto genérica foi inventada**. Cada espaço de
-imagem está marcado no site com `[FOTO: ...]`.
+As imagens vieram do **catálogo Toscana Food Service** (PDF): 18 espaços já
+estão preenchidos com as fotos originais dos produtos, e o emblema da marca é
+o logo real, extraído da capa do catálogo.
 
-Para preencher: salve os arquivos em `assets/fotos/` **com exatamente estes
-nomes**. Assim que o arquivo existir, a foto aparece sozinha e o aviso some —
-não precisa mexer no código.
+| Onde | Foto usada |
+|---|---|
+| Topo (hero) | trufa negra fresca, recortada sobre o verde |
+| “Por que a Toscana” | trufa branca fresca |
+| Compartilhamento (Open Graph) | composição com logo + trufa |
+| Trufas | trufa negra inteira e cortada |
+| Azeites & Acetos | azeite Calvi Arzentu |
+| Massas | fusilli Martelli |
+| Produtos trufados | salsa com trufa branca Savitar |
+| Azeitonas & Conservas | azeitona Leccino Sinisi |
+| Molhos & Atomatados | tomate San Marzano D.O.P. |
+| Arroz & Caldos | arroz Acquerello |
+| Marcas com foto | Leonardi, Savitar, Frescobaldi/Laudemio, Cipriani, Martelli, De Carlo, Sinisi, Fratelli Calvi, Acquerello |
 
-| Arquivo | Onde aparece | Formato sugerido |
-|---|---|---|
-| `hero-trufas.jpg` | Imagem de tela cheia do topo | horizontal, 2400×1400 |
-| `og-capa.jpg` | Miniatura ao compartilhar no WhatsApp/redes | 1200×630 |
-| `porque-toscana.jpg` | Seção “Por que a Toscana” | vertical, 1200×1600 |
-| `cat-trufas.jpg` | Categoria Trufas | horizontal 4:3, 1200×900 |
-| `cat-caviar.jpg` | Categoria Caviar | 4:3 |
-| `cat-vinhos.jpg` | Categoria Vinhos | 4:3 |
-| `cat-azeites.jpg` | Categoria Azeites & Acetos | 4:3 |
-| `cat-massas.jpg` | Categoria Massas | 4:3 |
-| `cat-trufados.jpg` | Categoria Produtos trufados | 4:3 |
-| `cat-azeitonas.jpg` | Categoria Azeitonas & Conservas | 4:3 |
-| `cat-molhos.jpg` | Categoria Molhos & Atomatados | 4:3 |
-| `cat-arroz.jpg` | Categoria Arroz & Caldos | 4:3 |
-| `marca-leonardi.jpg` | Card Leonardi | quadrada, 900×900 |
-| `marca-savitar.jpg` | Card Savitar | quadrada |
-| `marca-caviar-import.jpg` | Card Caviar Import | quadrada |
-| `marca-frescobaldi-laudemio.jpg` | Card Frescobaldi / Laudemio | quadrada |
-| `marca-cipriani.jpg` | Card Cipriani | quadrada |
-| `marca-martelli.jpg` | Card Martelli | quadrada |
-| `marca-dal-forno-romano.jpg` | Card Dal Forno Romano | quadrada |
-| `marca-monsanto.jpg` | Card Monsanto | quadrada |
-| `marca-pietroso.jpg` | Card Pietroso | quadrada |
-| `marca-la-serena.jpg` | Card La Serena | quadrada |
-| `marca-castello-di-bolgheri.jpg` | Card Castello di Bolgheri | quadrada |
-| `marca-de-carlo.jpg` | Card De Carlo | quadrada |
-| `marca-agrigenus.jpg` | Card Agrigenus | quadrada |
-| `marca-bauer.jpg` | Card Bauer | quadrada |
-| `marca-sinisi.jpg` | Card Sinisi | quadrada |
-| `marca-fratelli-calvi.jpg` | Card Fratelli Calvi | quadrada |
-| `marca-acquerello.jpg` | Card Acquerello | quadrada |
+### Ainda faltam 10 fotos
 
-**A extensão não importa**: pode subir `.jpg`, `.png` ou `.webp` (maiúsculas
-também funcionam). O que precisa bater é o nome — `cat-trufas.png` funciona
-igual a `cat-trufas.jpg`. Também não é preciso subir todas de uma vez: as que
-faltarem continuam mostrando o aviso `[FOTO: ...]` e o resto do site funciona.
+O catálogo não traz imagens de caviar nem de vinhos, então estes espaços
+continuam com o aviso `[FOTO: ...]` no site:
 
-Dica de performance: exporte com qualidade ~75 e no máximo 250 KB por imagem
-(a do topo pode ir até 400 KB).
+| Arquivo | Onde aparece |
+|---|---|
+| `cat-caviar` | Categoria Caviar |
+| `cat-vinhos` | Categoria Vinhos |
+| `marca-caviar-import` | Card Caviar Import |
+| `marca-dal-forno-romano` | Card Dal Forno Romano |
+| `marca-monsanto` | Card Monsanto |
+| `marca-pietroso` | Card Pietroso |
+| `marca-la-serena` | Card La Serena |
+| `marca-castello-di-bolgheri` | Card Castello di Bolgheri |
+| `marca-agrigenus` | Card Agrigenus |
+| `marca-bauer` | Card Bauer |
+
+Salve cada arquivo em `assets/fotos/` com o nome da tabela. **A extensão não
+importa**: `.jpg`, `.png` ou `.webp` (maiúsculas também). Assim que o arquivo
+existir, a foto aparece sozinha e o aviso some — sem mexer no código. Formato
+sugerido: 4:3 (~1200×900) para categorias e quadrada (~900×900) para marcas.
+
+Dica de performance: qualidade ~75 e no máximo 250 KB por imagem.
 
 ### Como subir
 

@@ -120,6 +120,20 @@ p  { margin: 0 0 1.1rem; }
 }
 .photo.has-photo { background-image: var(--img); }
 .photo.has-photo .photo__tag { display: none; }
+
+/* Fotos de produto vêm recortadas em fundo branco: aparecem inteiras,
+   sobre um painel claro, com respiro nas bordas. */
+.photo--produto.has-photo {
+  background-color: #fff;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-origin: content-box;
+  padding: 6%;
+  border-bottom: 1px solid var(--linha);
+}
+/* o painel vertical encurta quando recebe foto de produto */
+.photo--tall.photo--produto.has-photo { aspect-ratio: 4 / 5; }
 .photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
 
 /* ---------------- Header ---------------- */
@@ -135,11 +149,8 @@ p  { margin: 0 0 1.1rem; }
 }
 
 .logo { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--offwhite); }
-.logo__mark {
-  width: 38px; height: 38px; flex: none; display: grid; place-items: center;
-  border: 1px solid var(--dourado); color: var(--dourado);
-  font-family: var(--serif); font-size: 1.25rem; line-height: 1;
-}
+.logo__mark { width: 40px; height: 40px; flex: none; object-fit: contain; }
+.footer__brand .logo__mark { width: 44px; height: 44px; }
 .logo__text { display: flex; flex-direction: column; line-height: 1.15; }
 .logo__text strong {
   font-family: var(--serif); font-weight: 500; font-size: 1.22rem; letter-spacing: .04em;
@@ -196,10 +207,31 @@ p  { margin: 0 0 1.1rem; }
 .photo--hero { position: absolute; inset: 0; z-index: -2; align-items: flex-start; justify-content: flex-end; }
 /* O aviso da foto do topo fica no canto, longe do título */
 .photo--hero .photo__tag { margin: 6.5rem var(--gut) 0 0; max-width: min(320px, 60vw); background: rgba(12, 21, 18, .55); }
+
+/* A trufa do topo vem recortada: fica sobre o verde, sem esticar. */
+.photo--hero.has-photo {
+  background-color: var(--verde-900);
+  background-repeat: no-repeat;
+  background-size: min(72vw, 340px) auto;
+  background-position: right -8vw top 7vh;
+}
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background:
     linear-gradient(to top, rgba(12, 21, 18, .94) 0%, rgba(12, 21, 18, .55) 45%, rgba(12, 21, 18, .55) 100%);
+}
+@media (min-width: 900px) {
+  .photo--hero.has-photo {
+    background-size: min(36vw, 430px) auto;
+    background-position: right 3vw center;
+  }
+  /* o texto recua para não encostar na trufa */
+  .hero h1, .hero__sub { max-width: 680px; }
+  .hero::before {
+    background:
+      linear-gradient(100deg, rgba(12, 21, 18, .96) 0%, rgba(12, 21, 18, .88) 42%,
+                      rgba(12, 21, 18, .3) 72%, rgba(12, 21, 18, .16) 100%);
+  }
 }
 .hero__content { max-width: 900px; }
 .hero h1 { margin-bottom: 1.4rem; }

@@ -72,7 +72,9 @@
       if (i >= candidatos.length) return;
       var img = new Image();
       img.onload = function () {
-        slot.style.setProperty('--img', 'url("' + candidatos[i] + '")');
+        /* URL absoluta: dentro do CSS o caminho relativo seria resolvido a
+           partir da pasta da folha de estilo, e não do documento. */
+        slot.style.setProperty('--img', 'url("' + img.src + '")');
         slot.classList.add('has-photo');
       };
       img.onerror = function () { tentar(i + 1); };
