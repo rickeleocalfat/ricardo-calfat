@@ -48,10 +48,23 @@
     });
   }
 
+  /* ---------- Esteira da vitrine ----------
+     Duplica os itens para o laço não ter emenda. Feito antes de carregar as
+     fotos para que as cópias também recebam imagem. */
+  var esteira = document.querySelector('[data-esteira] .esteira__trilho');
+  if (esteira) {
+    var originais = Array.prototype.slice.call(esteira.children);
+    originais.forEach(function (item) {
+      var copia = item.cloneNode(true);
+      copia.setAttribute('aria-hidden', 'true');
+      esteira.appendChild(copia);
+    });
+  }
+
   /* ---------- Fotos com lazy-load ----------
-     Cada .photo[data-photo] carrega a imagem só quando chega perto da tela.
-     Enquanto o arquivo não existir, o placeholder [FOTO: ...] continua visível. */
-  var slots = document.querySelectorAll('.photo[data-photo]');
+     Cada elemento com data-photo carrega a imagem só quando chega perto da
+     tela. Enquanto o arquivo não existir, o aviso [FOTO: ...] continua visível. */
+  var slots = document.querySelectorAll('[data-photo]');
 
   /* Aceita a foto em qualquer um destes formatos, na ordem: basta o arquivo
      existir em assets/fotos/ com o nome certo — a extensão não importa. */
@@ -82,6 +95,8 @@
     })(0);
   }
 
+  var faixa = document.querySelector('[data-esteira]');
+
   if ('IntersectionObserver' in window) {
     var obsFotos = new IntersectionObserver(function (entradas, obs) {
       entradas.forEach(function (entrada) {
@@ -91,7 +106,23 @@
       });
     }, { rootMargin: '300px 0px' });
 
-    Array.prototype.forEach.call(slots, function (slot) { obsFotos.observe(slot); });
+    Array.prototype.forEach.call(slots, function (slot) {
+      /* os itens da esteira saem da tela na horizontal e nunca cruzariam o
+         observador individual: carregam todos juntos quando a faixa aparece */
+      if (faixa && faixa.contains(slot)) return;
+      obsFotos.observe(slot);
+    });
+
+    if (faixa) {
+      var obsFaixa = new IntersectionObserver(function (entradas, obs) {
+        entradas.forEach(function (entrada) {
+          if (!entrada.isIntersecting) return;
+          Array.prototype.forEach.call(entrada.target.querySelectorAll('[data-photo]'), carregarFoto);
+          obs.unobserve(entrada.target);
+        });
+      }, { rootMargin: '400px 0px' });
+      obsFaixa.observe(faixa);
+    }
   } else {
     Array.prototype.forEach.call(slots, carregarFoto);
   }
