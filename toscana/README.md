@@ -101,8 +101,9 @@ Todas bloqueiam algum item do briefing.
    *“Pioneiros no Brasil desde 2002”*. As duas podem conviver — fundação em 2000
    e pioneirismo em trufa em 2002 —, mas o critério de aceite pede data única.
    Hoje o site usa 2000 em título, abertura, rodapé e metadados.
-2. **Preço no site.** Nada de preço foi publicado. O catálogo traz valores, e a
-   decisão sobre exibi-los ou mantê-los só na tabela por e-mail continua aberta.
+2. ~~**Preço no site.**~~ **Decidido:** sem preço no site. As fichas de produto
+   mostrarão “Consultar”, e os valores seguem apenas na tabela enviada por
+   e-mail.
 3. **Destino dos leads.** E-mail, planilha ou CRM.
 4. **Ano de fundação das casas.** Só duas estão documentadas: Acetaia Leonardi
    (1871, no rótulo) e Martelli (1926). As outras quinze fichas estão sem o ano
