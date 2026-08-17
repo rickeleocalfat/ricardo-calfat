@@ -8,235 +8,222 @@
   var EMAIL = 'vendas@toscanagastronomia.com.br';
 
   /* Endpoint opcional para receber o formulário por e-mail/CRM.
-     Deixe vazio para o envio seguir pelo WhatsApp.
+     Vazio: o pedido segue pelo WhatsApp já preenchido.
      Ex.: 'https://formsubmit.co/ajax/vendas@toscanagastronomia.com.br' */
   var FORM_ENDPOINT = '';
 
-  var reduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Header muda ao rolar ---------- */
-  var header = document.querySelector('.header');
-  function atualizarHeader() {
-    if (!header) return;
-    header.classList.toggle('is-stuck', window.scrollY > 40);
-  }
-  atualizarHeader();
-  window.addEventListener('scroll', atualizarHeader, { passive: true });
-
-  /* ---------- Menu mobile ---------- */
-  var toggle = document.querySelector('.nav-toggle');
-  var nav = document.getElementById('menu');
+  /* ---------- Menu ---------- */
+  var alternar = document.querySelector('.nav-toggle');
+  var menu = document.getElementById('menu');
 
   function fecharMenu() {
-    if (!nav || !toggle) return;
-    nav.classList.remove('is-open');
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Abrir menu');
+    if (!menu || !alternar) return;
+    menu.classList.remove('aberto');
+    alternar.setAttribute('aria-expanded', 'false');
+    alternar.setAttribute('aria-label', 'Abrir menu');
   }
 
-  if (toggle && nav) {
-    toggle.addEventListener('click', function () {
-      var aberto = nav.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', String(aberto));
-      toggle.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
+  if (alternar && menu) {
+    alternar.addEventListener('click', function () {
+      var aberto = menu.classList.toggle('aberto');
+      alternar.setAttribute('aria-expanded', String(aberto));
+      alternar.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
     });
-    nav.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') fecharMenu();
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') fecharMenu();
-    });
+    menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') fecharMenu(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') fecharMenu(); });
   }
 
-  /* ---------- Esteira da vitrine ----------
-     Duplica os itens para o laço não ter emenda. Feito antes de carregar as
-     fotos para que as cópias também recebam imagem. */
-  var esteira = document.querySelector('[data-esteira] .esteira__trilho');
-  if (esteira) {
-    var originais = Array.prototype.slice.call(esteira.children);
-    originais.forEach(function (item) {
-      var copia = item.cloneNode(true);
-      copia.setAttribute('aria-hidden', 'true');
-      esteira.appendChild(copia);
-    });
+  /* ---------- Barra de ação permanente ----------
+     Entra depois da abertura, para não competir com o primeiro CTA. */
+  var barra = document.getElementById('barra-acao');
+  var abertura = document.querySelector('.abertura');
+
+  if (barra && abertura && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas) {
+      barra.classList.toggle('visivel', !entradas[0].isIntersecting);
+    }, { threshold: 0 }).observe(abertura);
+  } else if (barra) {
+    barra.classList.add('visivel');
   }
 
-  /* ---------- Fotos com lazy-load ----------
-     Cada elemento com data-photo carrega a imagem só quando chega perto da
-     tela. Enquanto o arquivo não existir, o aviso [FOTO: ...] continua visível. */
-  var slots = document.querySelectorAll('[data-photo]');
+  /* ---------- Trufa fresca: estado da temporada ----------
+     Períodos conforme o Catálogo 2026. Para ajustar, basta editar as datas
+     abaixo — [mês inicial, dia inicial, mês final, dia final], mês de 1 a 12. */
+  var TEMPORADAS = {
+    branca:  [[10, 1, 12, 31]],
+    verao:   [[5, 1, 8, 31], [10, 1, 12, 31]],
+    outono:  [[10, 1, 3, 15]],
+    inverno: [[11, 15, 3, 15]]
+  };
+  var DIAS_DE_AVISO = 30;   /* quantos dias antes a espécie entra como "chegando" */
 
-  /* Aceita a foto em qualquer um destes formatos, na ordem: basta o arquivo
-     existir em assets/fotos/ com o nome certo — a extensão não importa. */
-  var EXTENSOES = ['.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG', '.WEBP'];
-
-  function carregarFoto(slot) {
-    var src = slot.getAttribute('data-photo');
-    if (!src) return;
-
-    var semExt = src.replace(/\.[a-zA-Z]+$/, '');
-    var candidatos = [src];
-    EXTENSOES.forEach(function (ext) {
-      var alvo = semExt + ext;
-      if (candidatos.indexOf(alvo) === -1) candidatos.push(alvo);
-    });
-
-    (function tentar(i) {
-      if (i >= candidatos.length) return;
-      var img = new Image();
-      img.onload = function () {
-        /* URL absoluta: dentro do CSS o caminho relativo seria resolvido a
-           partir da pasta da folha de estilo, e não do documento. */
-        slot.style.setProperty('--img', 'url("' + img.src + '")');
-        slot.classList.add('has-photo');
-      };
-      img.onerror = function () { tentar(i + 1); };
-      img.src = candidatos[i];
-    })(0);
+  function dentroDoPeriodo(hoje, faixa) {
+    var ano = hoje.getFullYear();
+    var inicio = new Date(ano, faixa[0] - 1, faixa[1]);
+    var fim = new Date(ano, faixa[2] - 1, faixa[3], 23, 59, 59);
+    if (fim < inicio) {                       /* período que vira o ano */
+      return hoje >= inicio || hoje <= new Date(ano, faixa[2] - 1, faixa[3], 23, 59, 59);
+    }
+    return hoje >= inicio && hoje <= fim;
   }
 
-  var faixa = document.querySelector('[data-esteira]');
+  function diasAteComecar(hoje, faixa) {
+    var ano = hoje.getFullYear();
+    var inicio = new Date(ano, faixa[0] - 1, faixa[1]);
+    if (inicio < hoje) inicio = new Date(ano + 1, faixa[0] - 1, faixa[1]);
+    return Math.ceil((inicio - hoje) / 86400000);
+  }
 
-  if ('IntersectionObserver' in window) {
-    var obsFotos = new IntersectionObserver(function (entradas, obs) {
+  function estadoDaEspecie(hoje, faixas) {
+    var proximo = Infinity;
+    for (var i = 0; i < faixas.length; i++) {
+      if (dentroDoPeriodo(hoje, faixas[i])) return { chave: 'dentro', texto: 'Em temporada' };
+      proximo = Math.min(proximo, diasAteComecar(hoje, faixas[i]));
+    }
+    if (proximo <= DIAS_DE_AVISO) return { chave: 'chegando', texto: 'Chegando' };
+    return { chave: 'fora', texto: 'Fora de temporada' };
+  }
+
+  var lista = document.getElementById('estados-trufa');
+  if (lista) {
+    var hoje = new Date();
+    Array.prototype.forEach.call(lista.querySelectorAll('[data-especie]'), function (item) {
+      var faixas = TEMPORADAS[item.getAttribute('data-especie')];
+      if (!faixas) return;
+      var estado = estadoDaEspecie(hoje, faixas);
+      var selo = item.querySelector('.selo');
+      selo.textContent = estado.texto;
+      selo.className = 'selo selo--' + estado.chave;
+    });
+
+    var aviso = document.getElementById('atualizacao-trufa');
+    if (aviso) {
+      aviso.textContent = 'Estado calculado pelo calendário de colheita do Catálogo 2026 · ' +
+        hoje.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) +
+        '. A disponibilidade da semana é confirmada no contato.';
+    }
+  }
+
+  /* ---------- Entrada dos blocos ---------- */
+  var blocos = document.querySelectorAll('.surge');
+
+  if (semMovimento || !('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(blocos, function (el) { el.classList.add('visto'); });
+  } else {
+    var observador = new IntersectionObserver(function (entradas, obs) {
       entradas.forEach(function (entrada) {
         if (!entrada.isIntersecting) return;
-        carregarFoto(entrada.target);
+        entrada.target.classList.add('visto');
         obs.unobserve(entrada.target);
       });
-    }, { rootMargin: '300px 0px' });
-
-    Array.prototype.forEach.call(slots, function (slot) {
-      /* os itens da esteira saem da tela na horizontal e nunca cruzariam o
-         observador individual: carregam todos juntos quando a faixa aparece */
-      if (faixa && faixa.contains(slot)) return;
-      obsFotos.observe(slot);
-    });
-
-    if (faixa) {
-      var obsFaixa = new IntersectionObserver(function (entradas, obs) {
-        entradas.forEach(function (entrada) {
-          if (!entrada.isIntersecting) return;
-          Array.prototype.forEach.call(entrada.target.querySelectorAll('[data-photo]'), carregarFoto);
-          obs.unobserve(entrada.target);
-        });
-      }, { rootMargin: '400px 0px' });
-      obsFaixa.observe(faixa);
-    }
-  } else {
-    Array.prototype.forEach.call(slots, carregarFoto);
+    }, { rootMargin: '0px 0px -6%', threshold: 0.05 });
+    Array.prototype.forEach.call(blocos, function (el) { observador.observe(el); });
   }
 
-  /* ---------- Revelar ao rolar ---------- */
-  var reveals = document.querySelectorAll('.reveal');
-
-  if (reduzirMovimento || !('IntersectionObserver' in window)) {
-    Array.prototype.forEach.call(reveals, function (el) { el.classList.add('is-visible'); });
-  } else {
-    var obsReveal = new IntersectionObserver(function (entradas, obs) {
-      entradas.forEach(function (entrada, i) {
-        if (!entrada.isIntersecting) return;
-        var atraso = Math.min(i * 70, 280);
-        setTimeout(function () { entrada.target.classList.add('is-visible'); }, atraso);
-        obs.unobserve(entrada.target);
-      });
-    }, { rootMargin: '0px 0px -8%', threshold: 0.08 });
-
-    Array.prototype.forEach.call(reveals, function (el) { obsReveal.observe(el); });
+  /* ---------- Máscaras ---------- */
+  function mascarar(campo, formatar) {
+    if (!campo) return;
+    campo.addEventListener('input', function () { campo.value = formatar(campo.value); });
   }
 
-  /* ---------- Máscara simples de WhatsApp ---------- */
-  var campoWhats = document.getElementById('whatsapp');
-  if (campoWhats) {
-    campoWhats.addEventListener('input', function () {
-      var d = campoWhats.value.replace(/\D/g, '').slice(0, 11);
-      if (d.length > 6) {
-        campoWhats.value = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
-      } else if (d.length > 2) {
-        campoWhats.value = '(' + d.slice(0, 2) + ') ' + d.slice(2);
-      } else {
-        campoWhats.value = d;
-      }
-    });
-  }
+  mascarar(document.getElementById('whatsapp'), function (valor) {
+    var d = valor.replace(/\D/g, '').slice(0, 11);
+    if (d.length > 6) return '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
+    if (d.length > 2) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    return d;
+  });
 
-  /* ---------- Formulário de catálogo ---------- */
+  mascarar(document.getElementById('cnpj'), function (valor) {
+    var d = valor.replace(/\D/g, '').slice(0, 14);
+    var saida = d;
+    if (d.length > 2) saida = d.slice(0, 2) + '.' + d.slice(2);
+    if (d.length > 5) saida = d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5);
+    if (d.length > 8) saida = d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5, 8) + '/' + d.slice(8);
+    if (d.length > 12) saida = d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5, 8) + '/' + d.slice(8, 12) + '-' + d.slice(12);
+    return saida;
+  });
+
+  /* ---------- Formulário qualificado ---------- */
   var form = document.getElementById('form-catalogo');
-  var status = document.getElementById('form-status');
+  var retorno = document.getElementById('retorno');
 
-  function mostrarErro(campo, mostrar) {
-    var wrapper = campo.closest('.field');
-    var erro = form.querySelector('[data-error-for="' + campo.id + '"]');
-    if (wrapper) wrapper.classList.toggle('has-error', mostrar);
-    if (erro) erro.hidden = !mostrar;
+  function marcarErro(campo, mostrar) {
+    var caixa = campo.closest('.campo');
+    var aviso = form.querySelector('[data-erro-de="' + campo.id + '"]');
+    if (caixa) caixa.classList.toggle('erro', mostrar);
+    if (aviso) aviso.hidden = !mostrar;
     campo.setAttribute('aria-invalid', mostrar ? 'true' : 'false');
   }
 
   function validar(campo) {
     var v = campo.value.trim();
-    var ok = true;
+    var ok;
     if (campo.id === 'email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
     else if (campo.id === 'whatsapp') ok = v.replace(/\D/g, '').length >= 10;
+    else if (campo.id === 'cnpj') ok = v.replace(/\D/g, '').length === 14;
     else ok = v.length >= 2;
-    mostrarErro(campo, !ok);
+    marcarErro(campo, !ok);
     return ok;
   }
 
   if (form) {
-    Array.prototype.forEach.call(form.querySelectorAll('input[required]'), function (campo) {
+    var obrigatorios = form.querySelectorAll('[required]');
+
+    Array.prototype.forEach.call(obrigatorios, function (campo) {
       campo.addEventListener('blur', function () { if (campo.value.trim()) validar(campo); });
       campo.addEventListener('input', function () {
-        if (campo.closest('.field').classList.contains('has-error')) validar(campo);
+        if (campo.closest('.campo').classList.contains('erro')) validar(campo);
       });
     });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      var obrigatorios = form.querySelectorAll('input[required]');
-      var valido = true;
-      var primeiroErro = null;
-
+      var valido = true, primeiro = null;
       Array.prototype.forEach.call(obrigatorios, function (campo) {
-        if (!validar(campo)) {
-          valido = false;
-          if (!primeiroErro) primeiroErro = campo;
-        }
+        if (!validar(campo)) { valido = false; if (!primeiro) primeiro = campo; }
       });
 
       if (!valido) {
-        if (primeiroErro) primeiroErro.focus();
-        status.hidden = false;
-        status.textContent = 'Confira os campos destacados para enviarmos o catálogo.';
+        if (primeiro) primeiro.focus();
+        retorno.hidden = false;
+        retorno.textContent = 'Faltam dados nos campos destacados.';
         return;
       }
 
       var dados = {
         nome: form.nome.value.trim(),
         empresa: form.empresa.value.trim(),
+        operacao: form.operacao.value,
+        cnpj: form.cnpj.value.trim(),
+        cidade: form.cidade.value.trim(),
         email: form.email.value.trim(),
         whatsapp: form.whatsapp.value.trim(),
         mensagem: form.mensagem.value.trim()
       };
 
-      var texto =
-        'Olá! Gostaria de receber o catálogo da Toscana.\n\n' +
+      var texto = 'Pedido de catálogo — Toscana Alta Gastronomia\n\n' +
         'Nome: ' + dados.nome + '\n' +
-        'Empresa/Restaurante: ' + dados.empresa + '\n' +
+        'Empresa: ' + dados.empresa + '\n' +
+        'Operação: ' + dados.operacao + '\n' +
+        'CNPJ: ' + dados.cnpj + '\n' +
+        'Cidade: ' + dados.cidade + '\n' +
         'E-mail: ' + dados.email + '\n' +
         'WhatsApp: ' + dados.whatsapp +
         (dados.mensagem ? '\n\nMensagem: ' + dados.mensagem : '');
 
       function confirmar(msg) {
-        status.hidden = false;
-        status.textContent = msg;
+        retorno.hidden = false;
+        retorno.textContent = msg;
         form.reset();
       }
 
       if (FORM_ENDPOINT) {
         var botao = form.querySelector('button[type="submit"]');
         botao.disabled = true;
-        botao.textContent = 'Enviando…';
+        botao.textContent = 'Enviando';
 
         fetch(FORM_ENDPOINT, {
           method: 'POST',
@@ -244,20 +231,19 @@
           body: JSON.stringify(dados)
         }).then(function (r) {
           if (!r.ok) throw new Error('falha no envio');
-          confirmar('Pedido recebido, ' + dados.nome.split(' ')[0] + '. Enviaremos o catálogo para ' +
-            dados.email + ' em até 1 dia útil.');
+          confirmar('Pedido registrado. O catálogo será enviado para ' + dados.email + ' em até um dia útil.');
         }).catch(function () {
           window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
-          confirmar('Não conseguimos enviar pelo site — abrimos o WhatsApp com seus dados. ' +
-            'Se preferir, escreva para ' + EMAIL + '.');
+          confirmar('O envio pelo site falhou. O WhatsApp foi aberto com os dados preenchidos; ' +
+            'o pedido também pode seguir para ' + EMAIL + '.');
         }).then(function () {
           botao.disabled = false;
           botao.textContent = 'Solicitar catálogo';
         });
       } else {
         window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
-        confirmar('Pedido pronto, ' + dados.nome.split(' ')[0] + '! Abrimos o WhatsApp com seus dados — é só enviar. ' +
-          'Se preferir e-mail, escreva para ' + EMAIL + '.');
+        confirmar('Pedido pronto no WhatsApp, com os dados preenchidos — basta enviar. ' +
+          'Por e-mail, o endereço é ' + EMAIL + '.');
       }
     });
   }
