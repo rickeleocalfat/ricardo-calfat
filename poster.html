@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>She Is the Man in the High School — Poster (hallway cut)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Caveat:wght@500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F8F5EA;
+    --rule:#B9CCE2;
+    --margin:#E79AA6;
+    --marker:#1D1B18;
+    --pen:#2A4FA8;
+    --redpen:#D8342B;
+    --highlight:#FFE95C;
+    --tape:rgba(226,214,180,.75);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:#3A3733;
+    display:flex;align-items:center;justify-content:center;
+    min-height:100vh;padding:32px 16px;
+    font-family:"Courier Prime",monospace;
+  }
+
+  .wall{position:relative;width:min(94vw,640px)}
+
+  .poster{
+    position:relative;
+    width:100%;
+    aspect-ratio:2/3;
+    background:var(--paper);
+    container-type:inline-size;
+    transform:rotate(-1.1deg);
+    box-shadow:0 18px 44px rgba(0,0,0,.45);
+    overflow:hidden;
+  }
+
+  /* notebook paper */
+  .poster::before{
+    content:"";position:absolute;inset:0;z-index:0;
+    background:
+      repeating-linear-gradient(180deg,transparent 0 5.6cqw,var(--rule) 5.6cqw 5.75cqw);
+    opacity:.55;
+  }
+  .marginline{
+    position:absolute;top:0;bottom:0;left:11cqw;width:0.35cqw;
+    background:var(--margin);opacity:.75;z-index:1;
+  }
+  .holes{position:absolute;left:3.5cqw;top:0;bottom:0;width:4cqw;z-index:1;
+    display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;padding:14cqw 0}
+  .holes i{width:3.4cqw;height:3.4cqw;border-radius:50%;background:#3A3733;opacity:.16;display:block}
+
+  /* tape */
+  .tape{
+    position:absolute;z-index:8;
+    width:22cqw;height:6cqw;
+    background:var(--tape);
+    box-shadow:0 .3cqw .8cqw rgba(0,0,0,.12);
+  }
+  .tape.tl{top:-2.5cqw;left:-5cqw;transform:rotate(-38deg)}
+  .tape.tr{top:-2.5cqw;right:-5cqw;transform:rotate(38deg)}
+  .tape.bl{bottom:-2.5cqw;left:-5cqw;transform:rotate(38deg)}
+  .tape.br{bottom:-2.5cqw;right:-5cqw;transform:rotate(-38deg)}
+
+  .sheet{
+    position:relative;z-index:4;
+    height:100%;
+    padding:8cqw 7cqw 7cqw 15cqw;
+    display:flex;flex-direction:column;
+  }
+
+  /* typed header, like the school printer did it */
+  .stamp{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:1.75cqw;letter-spacing:.24em;text-transform:uppercase;
+    color:#6C665B;
+  }
+
+  /* title, in marker */
+  .title{margin-top:4cqw;color:var(--marker);font-family:"Permanent Marker",cursive}
+  .fix{
+    position:relative;
+    font-family:"Caveat",cursive;font-weight:700;
+    color:var(--pen);
+    font-size:9cqw;line-height:1;
+    margin-left:16cqw;
+    display:inline-block;
+    transform:rotate(-6deg);
+  }
+  .fix svg{position:absolute;left:-7cqw;top:3.5cqw;width:9cqw;overflow:visible}
+  .l1{font-size:12cqw;line-height:1.02;margin-top:-1cqw}
+  .l1 .she{position:relative;display:inline-block}
+  .l1 .she svg{position:absolute;left:-8%;top:34%;width:118%;overflow:visible}
+  .l2{font-size:27cqw;line-height:.9;margin-left:-1cqw;transform:rotate(-1.2deg)}
+  .l3{font-size:11.5cqw;line-height:1.05}
+  .l4{font-size:11.5cqw;line-height:1.05;margin-top:-.4cqw}
+
+  .doodle{
+    position:absolute;z-index:6;pointer-events:none;
+  }
+  .doodle.star{right:8cqw;top:52cqw;width:13cqw;transform:rotate(9deg)}
+  .doodle.star svg{width:100%;overflow:visible}
+
+  /* dates, typed */
+  .dates{margin-top:auto}
+  .dates h2{
+    font-family:"Caveat",cursive;font-weight:700;
+    font-size:5.2cqw;color:var(--redpen);
+    transform:rotate(-1.4deg);
+    margin-bottom:1.5cqw;
+  }
+  .row{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:.6cqw 2cqw;
+    padding:1.9cqw 0;
+    border-bottom:0.18cqw dashed rgba(60,54,45,.35);
+    font-size:2.35cqw;
+    color:#2B2721;
+    letter-spacing:.02em;
+  }
+  .row .what{font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+  .row .when{text-align:right;white-space:nowrap;font-weight:700}
+  .row .who{
+    grid-column:1/-1;
+    font-size:1.85cqw;color:#6C665B;letter-spacing:.06em;
+  }
+  .row.hl .what{position:relative;display:inline-block}
+  .row.hl .what::before{
+    content:"";position:absolute;z-index:-1;
+    left:-1cqw;right:-1cqw;top:-.4cqw;bottom:-.6cqw;
+    background:var(--highlight);
+    transform:skewX(-6deg) rotate(-.6deg);
+    mix-blend-mode:multiply;
+  }
+
+  .ps{
+    margin-top:3cqw;
+    font-family:"Caveat",cursive;font-weight:700;
+    font-size:4.4cqw;color:var(--pen);
+    transform:rotate(-1.6deg);
+  }
+
+  @media print{
+    body{background:#fff;padding:0}
+    .wall{width:190mm}
+    .poster{box-shadow:none;transform:none}
+    .tape{display:none}
+    @page{size:A4 portrait;margin:8mm}
+  }
+</style>
+</head>
+<body>
+  <div class="wall">
+    <div class="poster">
+      <div class="marginline"></div>
+      <div class="holes"><i></i><i></i><i></i></div>
+
+      <div class="doodle star">
+        <svg viewBox="0 0 100 100" fill="none" stroke="#D8342B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50 8 L61 38 L93 39 L67 58 L77 89 L50 70 L23 89 L33 58 L7 39 L39 38 Z"/>
+        </svg>
+      </div>
+
+      <div class="sheet">
+
+        <div class="stamp">
+          <span>Escola Mobile · Drama</span>
+          <span>9th Grade</span>
+        </div>
+
+        <div class="title">
+          <div class="fix">he
+            <svg viewBox="0 0 60 60" fill="none" stroke="#2A4FA8" stroke-width="4" stroke-linecap="round">
+              <path d="M46 6 C30 14 16 28 10 46"/>
+              <path d="M8 32 L10 47 L25 44"/>
+            </svg>
+          </div>
+          <div class="l1"><span class="she">She
+            <svg viewBox="0 0 120 24" fill="none" stroke="#D8342B" stroke-width="5" stroke-linecap="round">
+              <path d="M4 16 C34 8 78 18 116 6"/>
+            </svg>
+          </span> is the</div>
+          <div class="l2">man</div>
+          <div class="l3">in the</div>
+          <div class="l4">high school</div>
+        </div>
+
+        <div class="dates">
+          <h2>save the dates!</h2>
+
+          <div class="row hl">
+            <span class="what">Family nights</span>
+            <span class="when">Oct 28 + 29 · 7:00 pm</span>
+            <span class="who">Everyone's families welcome</span>
+          </div>
+
+          <div class="row">
+            <span class="what">Preview 1</span>
+            <span class="when">Oct 28 · 3:30–5:00 pm</span>
+            <span class="who">Teaching staff</span>
+          </div>
+
+          <div class="row">
+            <span class="what">Preview 2</span>
+            <span class="when">Oct 29 · 1:25–3:30 pm</span>
+            <span class="who">8th grade</span>
+          </div>
+
+          <div class="ps">see you there — don't be late!</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="tape tl"></div>
+    <div class="tape tr"></div>
+    <div class="tape bl"></div>
+    <div class="tape br"></div>
+  </div>
+</body>
+</html>

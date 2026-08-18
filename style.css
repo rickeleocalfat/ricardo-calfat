@@ -1,0 +1,680 @@
+/*
+  ============================================================================
+  style.css — Aparência do site "She Is the Man in High School"
+  ----------------------------------------------------------------------------
+  Direção visual "Marquise / Refletor", alinhada ao pôster e à arte oficial
+  do elenco: fundo VINHO/BORDÔ profundo, letreiro DOURADO, destaque VERMELHO,
+  texto CREME e as máscaras do teatro (🎭) como elemento recorrente.
+
+  Organização do arquivo (use Ctrl/Cmd+F para pular entre as seções):
+    0. Variáveis e reset
+    1. Tipografia e utilitários
+    2. Barra de marquise (lâmpadas) + navegação
+    3. Hero
+    4. Synopsis
+    5. Showtimes (ingressos)
+    6. Cast & crew
+    7. Gallery
+    8. Venue & info
+    9. Footer
+   10. Animações de rolagem (reveal)
+   11. Responsivo (telas maiores)
+  Escrito "mobile-first": primeiro o celular, depois ajustes para telas maiores.
+  ============================================================================
+*/
+
+/* ─────────────────────────────────────────────────────────────
+   0. VARIÁVEIS DE COR E RESET
+   As "variáveis" (--nome) guardam as cores num só lugar. Para mudar
+   o visual do site inteiro, basta alterar os valores aqui.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --wine-950: #2e0a0c;   /* vinho quase preto (fundo mais escuro)   */
+  --wine-900: #4a0f12;   /* vinho profundo (fundo principal)        */
+  --wine-800: #5c1a1b;   /* vinho dos cartões                       */
+  --wine-700: #732226;   /* vinho mais claro para bordas/realces     */
+  --gold:     #e8b84b;   /* dourado da marquise                      */
+  --gold-lit: #ffdf8a;   /* dourado "aceso" (brilho das lâmpadas)    */
+  --red:      #d8342b;   /* vermelho do "MAN" (destaque forte)       */
+  --cream:    #fbf3e4;   /* creme (texto principal)                  */
+  --cream-dim:#d8c9b4;   /* creme apagado (texto secundário)         */
+  --ink:      #1d1b18;   /* quase preto (para textos sobre dourado)  */
+
+  --maxw: 1180px;        /* largura máxima do conteúdo               */
+  --ease: cubic-bezier(.22, 1, .36, 1); /* curva suave de animação   */
+}
+
+/* Reset básico: zera margens e usa box-sizing previsível */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--wine-900);
+  color: var(--cream);
+  font-family: "Sora", system-ui, -apple-system, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden; /* evita rolagem horizontal por causa de elementos girados */
+  /* Textura sutil de "meio-tom" (halftone) no fundo, dá clima de pôster impresso */
+  background-image:
+    radial-gradient(rgba(232,184,75,.05) 1px, transparent 1.6px);
+  background-size: 14px 14px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   1. TIPOGRAFIA E UTILITÁRIOS
+   ───────────────────────────────────────────────────────────── */
+.serif { font-family: "Fraunces", Georgia, "Times New Roman", serif; }
+
+/* "Kicker" e "kicker de seção": textinhos em maiúsculas com espaçamento */
+.section-kicker {
+  display: inline-block;
+  font-size: .72rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: .35em .9em;
+  border: 1px solid rgba(232,184,75,.4);
+  border-radius: 100px;
+  margin-bottom: 1rem;
+}
+
+/* Cabeçalho padrão de cada seção */
+.section-head { margin-bottom: 2.5rem; }
+.section-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 8vw, 4rem);
+  line-height: .98;
+  letter-spacing: -.01em;
+}
+.section-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* Espaçamento geral das seções (mobile-first) */
+main > section {
+  padding: 4.5rem 1.25rem;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  position: relative;
+}
+
+/* Botões */
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  font-size: .95rem;
+  letter-spacing: .02em;
+  padding: .85em 1.6em;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s;
+}
+.btn--solid {
+  background: var(--gold);
+  color: var(--ink);
+  box-shadow: 0 6px 0 #b9902f; /* "borda inferior" sólida, estilo botão de arcade */
+}
+.btn--solid:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #b9902f; }
+.btn--solid:active { transform: translateY(4px); box-shadow: 0 2px 0 #b9902f; }
+.btn--ghost {
+  color: var(--cream);
+  border: 1px solid rgba(251,243,228,.4);
+}
+.btn--ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* "Tag" pequena usada no eyebrow do hero */
+.tag {
+  display: inline-block;
+  font-size: .75rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   2. BARRA DE MARQUISE (lâmpadas) + NAVEGAÇÃO
+   ───────────────────────────────────────────────────────────── */
+
+/* A tira de lâmpadas no topo. As bolinhas são geradas via JS. */
+.marquee {
+  display: flex;
+  gap: clamp(10px, 3.4vw, 22px);
+  justify-content: center;
+  align-items: center;
+  padding: 9px 0;
+  background: var(--wine-950);
+  border-bottom: 1px solid rgba(232,184,75,.25);
+  overflow: hidden;
+}
+/* Cada lâmpada individual (classe adicionada pelo JS) */
+.marquee .bulb {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--gold-lit);
+  /* brilho ao redor da lâmpada */
+  box-shadow: 0 0 6px 1px rgba(255,223,138,.8);
+  /* animação de "perseguição" das luzes; o atraso vem do índice (JS) */
+  animation: bulbGlow 1.4s infinite ease-in-out;
+  animation-delay: var(--delay, 0s);
+}
+@keyframes bulbGlow {
+  0%, 100% { opacity: .35; transform: scale(.85); }
+  50%      { opacity: 1;   transform: scale(1); }
+}
+
+/* Navegação fixa no topo */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .8rem 1.25rem;
+  background: rgba(46,10,12,.82);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(232,184,75,.15);
+}
+.nav__brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--cream); }
+.nav__brand-mark {
+  font-family: "Fraunces", serif;
+  font-weight: 900;
+  color: var(--ink);
+  background: var(--gold);
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border-radius: 7px;
+  box-shadow: 0 0 0 3px rgba(232,184,75,.25);
+}
+.nav__brand-text { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.05rem; }
+.nav__links { display: none; gap: 1.4rem; } /* escondido no celular */
+.nav__links a {
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: .9rem;
+  letter-spacing: .02em;
+  transition: color .2s;
+}
+.nav__links a:hover { color: var(--gold); }
+
+/* ─────────────────────────────────────────────────────────────
+   3. HERO
+   Layout assimétrico: texto de um lado, pôster inclinado do outro.
+   ───────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 3rem 1.25rem 4rem;
+  overflow: hidden;
+}
+
+/* Brilhos de refletor (círculos de luz difusa) */
+.hero__spot {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  z-index: 0;
+  pointer-events: none;
+}
+.hero__spot--a { width: 340px; height: 340px; background: rgba(232,184,75,.20); top: -60px; right: -40px; }
+.hero__spot--b { width: 300px; height: 300px; background: rgba(216,52,43,.18);  bottom: 40px; left: -80px; }
+
+/* Camada de meio-tom só no hero, um pouco mais forte */
+.hero__halftone {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: radial-gradient(rgba(232,184,75,.10) 1.2px, transparent 1.6px);
+  background-size: 12px 12px;
+  mask-image: radial-gradient(ellipse at 60% 40%, #000 30%, transparent 75%);
+}
+
+/* Grade do hero: no celular é uma coluna só */
+.hero__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.hero__eyebrow { margin-bottom: 1rem; }
+
+/* Título: cada linha tem seu próprio tratamento */
+.hero__title { line-height: .9; margin-bottom: 1.3rem; }
+.hero__line {
+  display: block;
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-style: italic;
+  font-size: clamp(1.6rem, 6.5vw, 2.6rem);
+  color: var(--cream);
+}
+.hero__line--sub {
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: .02em;
+  color: var(--gold);
+}
+/* A palavra "MAN" gigante, com preenchimento vazado + contorno vermelho */
+.hero__mega {
+  display: block;
+  font-family: "Fraunces", serif;
+  font-weight: 900;
+  font-size: clamp(5rem, 30vw, 12rem);
+  line-height: .8;
+  letter-spacing: -.02em;
+  color: var(--red);
+  position: relative;
+  /* leve sombra dourada para dar profundidade de "letreiro" */
+  text-shadow: 3px 3px 0 rgba(232,184,75,.28);
+}
+
+.hero__tagline {
+  font-size: 1.05rem;
+  color: var(--cream-dim);
+  max-width: 34ch;
+  margin-bottom: 1.8rem;
+}
+
+/* Blocos de data (OCT 28 / OCT 29) */
+.hero__dates {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.8rem;
+}
+.datechip {
+  display: grid;
+  justify-items: center;
+  background: var(--wine-800);
+  border: 1px solid rgba(232,184,75,.4);
+  border-radius: 12px;
+  padding: .5rem .9rem;
+  min-width: 74px;
+  transform: rotate(-2deg);
+}
+.datechip:last-of-type { transform: rotate(2deg); }
+.datechip__mon { font-size: .7rem; letter-spacing: .25em; color: var(--gold); }
+.datechip__num { font-family: "Fraunces", serif; font-weight: 900; font-size: 2.4rem; line-height: 1; }
+.hero__amp { font-family: "Fraunces", serif; font-size: 1.6rem; color: var(--gold); }
+.hero__dates-note {
+  width: 100%;
+  font-size: .8rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+}
+
+.hero__cta { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+/* Pôster embutido (iframe) — mantém proporção de cartaz 2/3 */
+.hero__poster {
+  position: relative;
+  justify-self: center;
+  width: min(88%, 340px);
+}
+.poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  border-radius: 6px;
+  overflow: hidden;
+  transform: rotate(2deg);
+  box-shadow: 0 24px 50px rgba(0,0,0,.5);
+  transition: transform .4s var(--ease);
+}
+.poster:hover { transform: rotate(0deg) scale(1.02); }
+.poster__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  /* o iframe não deve capturar cliques/scroll — é só exibição */
+  pointer-events: none;
+}
+/* "Fitas adesivas" nos cantos do pôster (decoração) */
+.poster__tape {
+  position: absolute;
+  z-index: 3;
+  width: 66px; height: 22px;
+  background: rgba(251,243,228,.55);
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+.poster__tape--tl { top: -8px; left: -14px; transform: rotate(-40deg); }
+.poster__tape--br { bottom: -8px; right: -14px; transform: rotate(-40deg); }
+.poster__cap {
+  text-align: center;
+  margin-top: 1rem;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  color: var(--cream-dim);
+}
+
+/* Seta de "role para baixo" */
+.hero__scroll {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 26px; height: 42px;
+  margin: 2.5rem auto 0;
+  border: 2px solid rgba(232,184,75,.5);
+  border-radius: 20px;
+}
+.hero__scroll-dot {
+  position: absolute;
+  top: 7px; left: 50%;
+  width: 5px; height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: scrollDot 1.6s infinite;
+}
+@keyframes scrollDot {
+  0%   { transform: translateY(0);   opacity: 1; }
+  70%  { transform: translateY(16px); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   4. SYNOPSIS
+   ───────────────────────────────────────────────────────────── */
+.synopsis__body {
+  display: grid;
+  gap: 1.3rem;
+  max-width: 60ch;
+}
+.synopsis__body p { font-size: 1.08rem; color: var(--cream); }
+.synopsis__body strong { color: var(--gold); font-weight: 600; }
+.synopsis__body em { color: var(--red); font-style: italic; }
+
+/* Uma "linha" decorativa com máscaras de teatro entre seções.
+   Colocamos as máscaras via ::before nas seções principais.        */
+.synopsis::before,
+.showtimes::before {
+  content: "🎭";
+  position: absolute;
+  top: 1.2rem; right: 1.25rem;
+  font-size: 1.6rem;
+  opacity: .5;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   5. SHOWTIMES — cada sessão é um "canhoto de ingresso"
+   ───────────────────────────────────────────────────────────── */
+.tickets {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+.ticket {
+  display: flex;
+  align-items: stretch;
+  background: var(--wine-800);
+  border: 1px solid rgba(232,184,75,.3);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .3s var(--ease), border-color .3s;
+}
+.ticket:hover { transform: translateY(-4px); border-color: var(--gold); }
+
+/* O "canhoto" (parte esquerda destacada com serrilha) */
+.ticket__stub {
+  flex: 0 0 92px;
+  background: var(--red);
+  color: var(--cream);
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: 1rem .5rem;
+  position: relative;
+}
+.ticket__stub--feature { background: var(--gold); color: var(--ink); }
+/* "Furos" da serrilha entre o canhoto e o corpo */
+.ticket__stub::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; right: -6px;
+  width: 12px;
+  background-image: radial-gradient(circle, var(--wine-900) 3px, transparent 3.5px);
+  background-size: 12px 14px;
+  background-position: center;
+}
+.ticket__stub-label { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; opacity: .9; }
+.ticket__stub-num { font-family: "Fraunces", serif; font-weight: 900; font-size: 2rem; line-height: 1; }
+
+.ticket__body { padding: 1.2rem 1.4rem; }
+.ticket__title { font-family: "Fraunces", serif; font-weight: 900; font-size: 1.4rem; margin-bottom: .3rem; }
+.ticket__date { color: var(--gold); font-weight: 600; }
+.ticket__time { font-size: 1.15rem; margin: .1rem 0; }
+.ticket__both {
+  font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink); background: var(--gold);
+  padding: .1em .5em; border-radius: 100px; vertical-align: middle;
+}
+.ticket__aud { font-size: .9rem; color: var(--cream-dim); }
+
+/* Sessão em destaque (família) ganha uma borda dourada mais forte */
+.ticket--feature { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(232,184,75,.35) inset; }
+
+/* ─────────────────────────────────────────────────────────────
+   6. CAST & CREW
+   ───────────────────────────────────────────────────────────── */
+.cast__grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.cast__card {
+  background: linear-gradient(160deg, var(--wine-800), var(--wine-900));
+  border: 1px solid rgba(232,184,75,.22);
+  border-radius: 14px;
+  padding: 1.4rem 1.1rem;
+  text-align: center;
+  transition: transform .3s var(--ease), border-color .3s;
+}
+.cast__card:hover { transform: translateY(-4px) rotate(-1deg); border-color: var(--gold); }
+.cast__initial {
+  display: grid;
+  place-content: center;
+  width: 54px; height: 54px;
+  margin: 0 auto .8rem;
+  border-radius: 50%;
+  background: var(--wine-950);
+  border: 1px solid rgba(232,184,75,.4);
+  font-family: "Fraunces", serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+.cast__card--crew .cast__initial { color: var(--red); }
+.cast__name { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.05rem; }
+.cast__role { font-size: .85rem; color: var(--cream-dim); }
+
+/* ─────────────────────────────────────────────────────────────
+   7. GALLERY
+   Grade "quebrada" (masonry simples) com alguns quadros maiores.
+   ───────────────────────────────────────────────────────────── */
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 150px;
+  gap: 1rem;
+}
+.frame {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(232,184,75,.22);
+  /* fundo do placeholder: gradiente vinho com um leve xadrez dourado */
+  background:
+    linear-gradient(135deg, var(--wine-800), var(--wine-950));
+  transition: transform .3s var(--ease);
+}
+.frame:hover { transform: scale(1.015); }
+.frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Quadros maiores: "tall" ocupa 2 linhas; "wide" ocupa 2 colunas */
+.frame[data-span="tall"] { grid-row: span 2; }
+.frame[data-span="wide"] { grid-column: span 2; }
+
+/* Legenda do placeholder (aparece quando não há imagem) */
+.frame__ph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  padding: .5rem;
+  color: var(--cream-dim);
+  font-size: .8rem;
+}
+.frame__ph code {
+  font-family: "Courier New", monospace;
+  background: rgba(0,0,0,.3);
+  padding: .3em .6em;
+  border-radius: 6px;
+  color: var(--gold);
+}
+/* Quando a imagem carrega, ela cobre a legenda automaticamente
+   (o <img> tem z-index maior por vir depois e ser opaco).          */
+.frame img { position: relative; z-index: 1; }
+
+/* ─────────────────────────────────────────────────────────────
+   8. VENUE & INFO
+   ───────────────────────────────────────────────────────────── */
+.venue__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+.venue__card {
+  background: var(--wine-800);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 12px 12px 0;
+  padding: 1.5rem 1.4rem;
+}
+.venue__label {
+  font-size: .72rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .8rem;
+}
+.venue__big { font-family: "Fraunces", serif; font-weight: 900; font-size: 1.6rem; line-height: 1.1; }
+.venue__text { color: var(--cream-dim); font-size: .95rem; }
+
+/* ─────────────────────────────────────────────────────────────
+   9. FOOTER
+   ───────────────────────────────────────────────────────────── */
+.footer {
+  background: var(--wine-950);
+  border-top: 1px solid rgba(232,184,75,.25);
+  margin-top: 3rem;
+  position: relative;
+}
+/* Tira de lâmpadas do rodapé (preenchida via JS) */
+.footer__marquee {
+  display: flex;
+  gap: clamp(10px, 3.4vw, 22px);
+  justify-content: center;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(232,184,75,.15);
+}
+.footer__inner {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding: 3rem 1.25rem 1.5rem;
+  display: grid;
+  gap: 2rem;
+}
+.footer__logo { font-family: "Fraunces", serif; font-weight: 900; font-size: 1.6rem; line-height: 1; }
+.footer__logo span { color: var(--gold); font-size: 1rem; font-weight: 600; }
+.footer__tag { color: var(--cream-dim); font-size: .85rem; margin-top: .6rem; }
+.footer__cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+.footer__col h4 {
+  font-size: .72rem; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: .7rem;
+}
+.footer__col a {
+  display: block;
+  color: var(--cream-dim);
+  text-decoration: none;
+  font-size: .9rem;
+  padding: .2rem 0;
+  transition: color .2s;
+}
+.footer__col a:hover { color: var(--cream); }
+.footer__credit {
+  text-align: center;
+  padding: 1.2rem;
+  font-size: .78rem;
+  color: rgba(216,201,180,.6);
+  border-top: 1px solid rgba(232,184,75,.12);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   10. ANIMAÇÕES DE ROLAGEM (reveal)
+   Os elementos com a classe .reveal começam invisíveis e deslocados;
+   quando entram na tela, o JavaScript adiciona .is-visible e eles
+   surgem suavemente. O atraso (--d) cria o efeito escalonado.
+   ───────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+  transition-delay: calc(var(--d, 0) * 90ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Acessibilidade: se a pessoa prefere menos movimento, desligamos
+   as animações para não causar desconforto.                        */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  .reveal { opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   11. RESPONSIVO — ajustes para telas maiores (tablet/desktop)
+   Como o site é "mobile-first", aqui só ADICIONAMOS melhorias.
+   ───────────────────────────────────────────────────────────── */
+
+/* Tablet em diante */
+@media (min-width: 720px) {
+  .nav__links { display: flex; } /* mostra o menu */
+
+  .cast__grid { grid-template-columns: repeat(4, 1fr); }
+  .gallery__grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 180px; }
+  .venue__grid { grid-template-columns: repeat(3, 1fr); }
+
+  .footer__inner { grid-template-columns: 1fr 1.4fr; align-items: start; }
+  .footer__cols { grid-template-columns: repeat(3, 1fr); }
+
+  /* Ingressos lado a lado, com o de "família" ocupando a largura toda */
+  .tickets { grid-template-columns: 1fr 1fr; }
+  .ticket--feature { grid-column: 1 / -1; }
+}
+
+/* Desktop: hero em duas colunas (texto | pôster) */
+@media (min-width: 940px) {
+  .hero { padding-top: 4.5rem; }
+  .hero__grid {
+    grid-template-columns: 1.15fr .85fr;
+    gap: 3rem;
+  }
+  .hero__poster { justify-self: end; width: min(100%, 360px); }
+  .hero__scroll { margin-left: 0; }
+
+  main > section { padding: 6rem 1.25rem; }
+}
