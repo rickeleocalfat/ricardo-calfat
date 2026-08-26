@@ -65,7 +65,6 @@
     <nav class="nav__links" aria-label="Primary">
       <a href="#synopsis">Story</a>
       <a href="#showtimes">Showtimes</a>
-      <a href="#cast">Cast</a>
       <a href="#gallery">Gallery</a>
       <a href="#venue">Venue</a>
     </nav>
@@ -241,7 +240,7 @@
             <h3 class="ticket__title">Family Shows</h3>
             <p class="ticket__date">October 28 &amp; October 29</p>
             <p class="ticket__time">7:00 PM <span class="ticket__both">both nights</span></p>
-            <p class="ticket__aud">Open to families &amp; friends</p>
+            <p class="ticket__aud">Open to families</p>
           </div>
         </article>
 
@@ -251,69 +250,7 @@
 
     <!--
       ======================================================================
-      4) CAST & CREW — grade com nome e papel. Conteúdo é PLACEHOLDER:
-         basta trocar os nomes/personagens depois.
-      ======================================================================
-    -->
-    <section class="cast" id="cast">
-      <div class="section-head reveal">
-        <span class="section-kicker">Cast &amp; Crew</span>
-        <h2 class="section-title">Meet the team</h2>
-      </div>
-
-      <ul class="cast__grid">
-        <!--
-          Cada <li> é uma pessoa. Duplique um bloco e troque:
-          - .cast__name  -> nome real
-          - .cast__role  -> personagem ou função
-        -->
-        <li class="cast__card reveal">
-          <span class="cast__initial" aria-hidden="true">V</span>
-          <p class="cast__name">Cast Member 1</p>
-          <p class="cast__role">as Viola</p>
-        </li>
-        <li class="cast__card reveal" style="--d:1">
-          <span class="cast__initial" aria-hidden="true">S</span>
-          <p class="cast__name">Cast Member 2</p>
-          <p class="cast__role">as Sebastian</p>
-        </li>
-        <li class="cast__card reveal" style="--d:2">
-          <span class="cast__initial" aria-hidden="true">D</span>
-          <p class="cast__name">Cast Member 3</p>
-          <p class="cast__role">as Duke</p>
-        </li>
-        <li class="cast__card reveal" style="--d:3">
-          <span class="cast__initial" aria-hidden="true">O</span>
-          <p class="cast__name">Cast Member 4</p>
-          <p class="cast__role">as Olivia</p>
-        </li>
-        <li class="cast__card reveal">
-          <span class="cast__initial" aria-hidden="true">C</span>
-          <p class="cast__name">Cast Member 5</p>
-          <p class="cast__role">as The Coach</p>
-        </li>
-        <li class="cast__card reveal" style="--d:1">
-          <span class="cast__initial" aria-hidden="true">M</span>
-          <p class="cast__name">Cast Member 6</p>
-          <p class="cast__role">as Monique</p>
-        </li>
-        <li class="cast__card reveal" style="--d:2">
-          <span class="cast__initial" aria-hidden="true">+</span>
-          <p class="cast__name">Ensemble</p>
-          <p class="cast__role">Team &amp; students</p>
-        </li>
-        <li class="cast__card cast__card--crew reveal" style="--d:3">
-          <span class="cast__initial" aria-hidden="true">✎</span>
-          <p class="cast__name">Director &amp; Crew</p>
-          <p class="cast__role">Behind the scenes</p>
-        </li>
-      </ul>
-    </section>
-
-
-    <!--
-      ======================================================================
-      5) GALLERY — grade de fotos/pôster. Use placeholders por enquanto.
+      4) GALLERY — grade de fotos/pôster. Use placeholders por enquanto.
          Cada quadro carrega uma imagem de images/gallery-N.jpg; se o arquivo
          não existir, aparece um espaço reservado com o nome esperado.
       ======================================================================
@@ -356,7 +293,7 @@
 
     <!--
       ======================================================================
-      6) VENUE & PRACTICAL INFO — endereço, como chegar e duração estimada.
+      6) VENUE & PRACTICAL INFO — endereço e duração estimada.
          Textos entre colchetes [ ] são PLACEHOLDERS para você preencher.
       ======================================================================
     -->
@@ -376,13 +313,6 @@
         </div>
 
         <div class="venue__card reveal" style="--d:1">
-          <h3 class="venue__label">How to get there</h3>
-          <p class="venue__text">[Nearest metro / bus lines]</p>
-          <p class="venue__text">[Parking info for families]</p>
-          <p class="venue__text">Enter through the [main gate].</p>
-        </div>
-
-        <div class="venue__card reveal" style="--d:2">
           <h3 class="venue__label">Good to know</h3>
           <p class="venue__big">~[90] min</p>
           <p class="venue__text">Estimated runtime</p>
